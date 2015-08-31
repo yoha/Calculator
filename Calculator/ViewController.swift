@@ -66,11 +66,11 @@ class ViewController: UIViewController {
         if self.userIsInTheMiddleOfTypingNumber { self.enterButtonPressed() }
          
         switch calculationSymbol! {
-            // we also don't need to name the arguments. So, we can just use $0, $1, etc & remove the tuples
-            case "×": self.performMathCalculation({$1 * $0})
-            case "÷": self.performMathCalculation({$1 / $0})
-            case "+": self.performMathCalculation({$1 + $0})
-            case "−": self.performMathCalculation({$1 - $0})
+            // if there's only 1 argument or if the argument is the last in line, we can move it to the body and take out the parentheses.
+            case "×": self.performMathCalculation{$1 * $0}
+            case "÷": self.performMathCalculation{$1 / $0}
+            case "+": self.performMathCalculation{$1 + $0}
+            case "−": self.performMathCalculation{$1 - $0}
             default: break
         }
     }
