@@ -9,17 +9,23 @@
 import UIKit
 
 class ViewController: UIViewController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+    
+    // MARK: - Stored Properties
+    
+    var userIsInTheMiddleOfTypingNumber = false
+    
+    // MARK: - IBOutlet Properties
+    @IBOutlet weak var displayLabel: UILabel!
+    
+    // MARK: - IBAction Properties
+    @IBAction func appendDigitButtonPressed(sender: UIButton) {
+        if userIsInTheMiddleOfTypingNumber {
+            self.displayLabel.text! += sender.currentTitle!
+        }
+        else {
+            self.displayLabel.text = sender.currentTitle!
+            self.userIsInTheMiddleOfTypingNumber = true
+        }
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-
 }
 
