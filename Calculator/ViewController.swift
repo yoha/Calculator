@@ -66,11 +66,11 @@ class ViewController: UIViewController {
         if self.userIsInTheMiddleOfTypingNumber { self.enterButtonPressed() }
          
         switch calculationSymbol! {
-            // let's take advantage of swift's type inference intelligence.
-            case "×": self.performMathCalculation({(lastOperand, firstOperand) in return firstOperand * lastOperand})
-            case "÷": self.performMathCalculation({(lastOperand, firstOperand) in return firstOperand / lastOperand})
-            case "+": self.performMathCalculation({(lastOperand, firstOperand) in return firstOperand + lastOperand})
-            case "−": self.performMathCalculation({(lastOperand, firstOperand) in return firstOperand - lastOperand})
+            // no need for the return keyword here since the function definition is definitely returning
+            case "×": self.performMathCalculation({(lastOperand, firstOperand) in firstOperand * lastOperand})
+            case "÷": self.performMathCalculation({(lastOperand, firstOperand) in firstOperand / lastOperand})
+            case "+": self.performMathCalculation({(lastOperand, firstOperand) in firstOperand + lastOperand})
+            case "−": self.performMathCalculation({(lastOperand, firstOperand) in firstOperand - lastOperand})
             default: break
         }
     }
