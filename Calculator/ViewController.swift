@@ -71,6 +71,7 @@ class ViewController: UIViewController {
             case "÷": self.performMathCalculation{$1 / $0}
             case "+": self.performMathCalculation{$1 + $0}
             case "−": self.performMathCalculation{$1 - $0}
+            case "√": self.performMathCalculation{sqrt($0)}
             default: break
         }
     }
@@ -80,6 +81,13 @@ class ViewController: UIViewController {
     func performMathCalculation(operation: (Double, Double) -> Double) {
         guard self.operandStack.count >= 2 else { return }
         self.displayValue = operation(self.operandStack.removeLast(), self.operandStack.removeLast())
+        self.enterButtonPressed()
+    }
+
+    @nonobjc // obj-c doesn't allow method overloading & this class inherits from UIViewController, which is an obj-c file despite writing it in swift.
+    func performMathCalculation(operation: Double -> Double) {
+        guard self.operandStack.count >= 1 else { return }
+        self.displayValue = operation(self.operandStack.removeLast())
         self.enterButtonPressed()
     }
 }
