@@ -66,10 +66,10 @@ class ViewController: UIViewController {
         if self.userIsInTheMiddleOfTypingNumber { self.enterButtonPressed() }
          
         switch calculationSymbol! {
-            case "×": self.performMathCalculation(multiply)
-            case "÷": self.performMathCalculation(divide)
-            case "+": self.performMathCalculation(add)
-            case "−": self.performMathCalculation(substract)
+        case "×": self.performMathCalculation({(lastOperand: Double, firstOperand: Double) -> Double in return firstOperand * lastOperand})
+        case "÷": self.performMathCalculation({(lastOperand: Double, firstOperand: Double) -> Double in return firstOperand / lastOperand})
+        case "+": self.performMathCalculation({(lastOperand: Double, firstOperand: Double) -> Double in return firstOperand + lastOperand})
+        case "−": self.performMathCalculation({(lastOperand: Double, firstOperand: Double) -> Double in return firstOperand - lastOperand})
             default: break
         }
     }
@@ -80,22 +80,6 @@ class ViewController: UIViewController {
         guard self.operandStack.count >= 2 else { return }
         self.displayValue = operation(self.operandStack.removeLast(), self.operandStack.removeLast())
         self.enterButtonPressed()
-    }
-    
-    func multiply(operand1: Double, with operand2: Double) -> Double {
-        return operand1 * operand2
-    }
-
-    func divide(operand1: Double, by operand2: Double) -> Double {
-        return operand1 / operand2
-    }
-    
-    func add(operand1: Double, with operand2: Double) -> Double {
-        return operand1 + operand2
-    }
-
-    func substract(operand1: Double, from operand2: Double) -> Double {
-        return operand1 - operand2
     }
 }
 
