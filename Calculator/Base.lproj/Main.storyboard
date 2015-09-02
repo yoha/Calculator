@@ -133,10 +133,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fsj-0r-jte">
                                 <rect key="frame" x="249" y="469" width="102" height="123"/>
                                 <animations/>
-                                <state key="normal" title="⏎"/>
-                                <connections>
-                                    <action selector="enterButtonPressed" destination="BYZ-38-t0r" eventType="touchUpInside" id="MDb-Op-H1O"/>
-                                </connections>
+                                <state key="normal" title="."/>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CEB-qB-G9S">
                                 <rect key="frame" x="359" y="338" width="103" height="123"/>
@@ -171,16 +168,17 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wf8-Ce-kjT">
                                 <rect key="frame" x="470" y="338" width="102" height="123"/>
                                 <animations/>
+                                <state key="normal" title="√"/>
                                 <connections>
-                                    <action selector="calculateButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="AKT-gd-abE"/>
+                                    <action selector="calculateButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="WVn-VI-4ox"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F5X-dT-1vu">
                                 <rect key="frame" x="470" y="469" width="102" height="123"/>
                                 <animations/>
-                                <state key="normal" title="√"/>
+                                <state key="normal" title="⏎"/>
                                 <connections>
-                                    <action selector="calculateButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="l84-tZ-7AR"/>
+                                    <action selector="enterButtonPressed" destination="BYZ-38-t0r" eventType="touchUpInside" id="KoN-ZN-z7U"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yQP-wS-SZR">
