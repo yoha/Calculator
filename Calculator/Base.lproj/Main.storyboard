@@ -134,6 +134,9 @@
                                 <rect key="frame" x="249" y="469" width="102" height="123"/>
                                 <animations/>
                                 <state key="normal" title="."/>
+                                <connections>
+                                    <action selector="floatingPointButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ulh-D2-yqs"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CEB-qB-G9S">
                                 <rect key="frame" x="359" y="338" width="103" height="123"/>
@@ -185,6 +188,9 @@
                                 <rect key="frame" x="28" y="469" width="102" height="123"/>
                                 <animations/>
                                 <state key="normal" title="C"/>
+                                <connections>
+                                    <action selector="clearDisplayButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="GZ7-6f-LaR"/>
+                                </connections>
                             </button>
                         </subviews>
                         <animations/>
@@ -285,6 +291,7 @@
                     <connections>
                         <outlet property="DigitZeroButton" destination="2Ar-VT-wQU" id="ZdD-1R-IG5"/>
                         <outlet property="displayLabel" destination="ntB-hh-2Hc" id="vpp-72-Bvv"/>
+                        <outlet property="floatingPointButton" destination="Fsj-0r-jte" id="PyI-jO-gD3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

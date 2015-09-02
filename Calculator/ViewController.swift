@@ -38,6 +38,7 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var displayLabel: UILabel!
     @IBOutlet weak var DigitZeroButton: UIButton!
+    @IBOutlet weak var floatingPointButton: UIButton!
     
     // MARK: - IBAction Properties
     
@@ -52,12 +53,26 @@ class ViewController: UIViewController {
             self.userIsInTheMiddleOfTypingNumber = true
         }
     }
+    @IBAction func clearDisplayButtonPressed(sender: UIButton) {
+        self.displayLabel.text = "0"
+        self.floatingPointButton.enabled = true
+    }
+    
+    @IBAction func floatingPointButtonPressed(sender: UIButton) {
+        if self.displayLabel.text!.characters.contains(".") { return }
+        else {
+            self.displayLabel.text!.append("." as Character)
+            self.floatingPointButton.enabled = false
+        }
+    }
+    
     @IBAction func enterButtonPressed() {
         self.DigitZeroButton.enabled = false
         self.userIsInTheMiddleOfTypingNumber = false
         
         self.operandStack.append(self.displayValue)
         print("self.operandStack: \(operandStack)")
+        if self.displayLabel.text!.characters.contains(".") { print("y") }
     }
     
     @IBAction func calculateButtonPressed(sender: UIButton) {
