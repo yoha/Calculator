@@ -54,21 +54,26 @@ class ViewController: UIViewController {
         }
     }
     @IBAction func clearDisplayButtonPressed(sender: UIButton) {
-        self.displayLabel.text = "0"
+        self.DigitZeroButton.enabled = false
         self.floatingPointButton.enabled = true
+        self.displayLabel.text = "0"
+        self.userIsInTheMiddleOfTypingNumber = false
     }
     
     @IBAction func floatingPointButtonPressed(sender: UIButton) {
+        self.DigitZeroButton.enabled = true
         if self.displayLabel.text!.characters.contains(".") { return }
         else {
             self.displayLabel.text!.append("." as Character)
             self.floatingPointButton.enabled = false
+            self.userIsInTheMiddleOfTypingNumber = true
         }
     }
     
     @IBAction func enterButtonPressed() {
         self.DigitZeroButton.enabled = false
         self.userIsInTheMiddleOfTypingNumber = false
+        self.floatingPointButton.enabled = true
         
         self.operandStack.append(self.displayValue)
         print("self.operandStack: \(operandStack)")
