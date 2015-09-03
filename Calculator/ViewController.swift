@@ -71,36 +71,34 @@ class ViewController: UIViewController {
     }
     
     @IBAction func enterButtonPressed() {
-        self.DigitZeroButton.enabled = false
-        self.userIsInTheMiddleOfTypingNumber = false
+        self.DigitZeroButton.enabled = true
         self.floatingPointButton.enabled = true
-        
+        self.userIsInTheMiddleOfTypingNumber = false
         self.operandStack.append(self.displayValue)
+        
         print("self.operandStack: \(operandStack)")
-        if self.displayLabel.text!.characters.contains(".") { print("y") }
     }
     
     @IBAction func calculateButtonPressed(sender: UIButton) {
         let calculationSymbol = sender.currentTitle
         
         if self.userIsInTheMiddleOfTypingNumber { self.enterButtonPressed() }
-         
+        
         switch calculationSymbol! {
-            // if there's only 1 argument or if the argument is the last in line, we can move it to the body and take out the parentheses.
-            case "×": self.performMathCalculation{$1 * $0}
-            case "÷": self.performMathCalculation{$1 / $0}
-            case "+": self.performMathCalculation{$1 + $0}
-            case "−": self.performMathCalculation{$1 - $0}
-            case "√": self.performMathCalculation{sqrt($0)}
+            case "×": self.performMathCalculation({ (x: Double, y: Double) -> Double in return y * x })
+            case "÷": self.performMathCalculation({ (x, y) in y / x })
+            case "+": self.performMathCalculation({ $1 + $0 })
+            case "−": self.performMathCalculation({ $1 - $0 })
+            case "√": self.performMathCalculation({ sqrt($0) })
             default: break
         }
     }
     
     // MARK: - Custom Methods
     
-    func performMathCalculation(operation: (Double, Double) -> Double) {
+    func performMathCalculation(operation: (x: Double, y: Double) -> Double) {
         guard self.operandStack.count >= 2 else { return }
-        self.displayValue = operation(self.operandStack.removeLast(), self.operandStack.removeLast())
+        self.displayValue = operation(x: self.operandStack.removeLast(), y: self.operandStack.removeLast())
         self.enterButtonPressed()
     }
 
