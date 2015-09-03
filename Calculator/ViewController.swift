@@ -86,9 +86,9 @@ class ViewController: UIViewController {
         
         switch calculationSymbol! {
             case "×": self.performMathCalculation({ (x: Double, y: Double) -> Double in return y * x })
-            case "÷": self.performMathCalculation({ (x, y) in y / x })
-            case "+": self.performMathCalculation({ $1 + $0 })
-            case "−": self.performMathCalculation({ $1 - $0 })
+            case "÷": self.performMathCalculation({ (x, y) in y / x }) // inference & implicit return
+            case "+": self.performMathCalculation({ $1 + $0 }) // shorthand argument names
+            case "−": self.performMathCalculation(){ $1 - $0 } // trailing closure for unary paramenter
             case "√": self.performMathCalculation({ sqrt($0) })
             default: break
         }
