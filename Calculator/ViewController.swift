@@ -89,7 +89,7 @@ class ViewController: UIViewController {
             case "÷": self.performMathCalculation({ (x, y) in y / x }) // inference & implicit return
             case "+": self.performMathCalculation({ $1 + $0 }) // shorthand argument names
             case "−": self.performMathCalculation(){ $1 - $0 } // trailing closure for unary paramenter
-            case "√": self.performMathCalculation({ sqrt($0) })
+            case "√": self.performMathCalculation{ sqrt($0) } // () is unneeded for unary param
             default: break
         }
     }
