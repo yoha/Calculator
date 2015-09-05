@@ -12,12 +12,11 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.DigitZeroButton.enabled = false
     }
     
     // MARK: - Stored Properties
     
-    var userIsInTheMiddleOfTypingNumber = false
+    var isUserInTheMiddleOfTyping = false
     
     // var operandStack: [Double] = []
     var operandStack = Array<Double>()
@@ -30,50 +29,74 @@ class ViewController: UIViewController {
         }
         set {
             self.displayLabel.text = "\(newValue)"
-            self.userIsInTheMiddleOfTypingNumber = false
+            self.isUserInTheMiddleOfTyping = false
         }
     }
     
     // MARK: - IBOutlet Properties
     
     @IBOutlet weak var displayLabel: UILabel!
-    @IBOutlet weak var DigitZeroButton: UIButton!
     @IBOutlet weak var floatingPointButton: UIButton!
     
     // MARK: - IBAction Properties
     
     @IBAction func appendDigitButtonPressed(sender: UIButton) {
-        self.DigitZeroButton.enabled = true
-        
-        if userIsInTheMiddleOfTypingNumber {
-            self.displayLabel.text! += sender.currentTitle!
+        if isUserInTheMiddleOfTyping {
+            if self.displayLabel.text!.characters.first == "0" {
+                if sender.currentTitle == "0" && self.displayLabel.text!.characters.contains(".") {
+                    self.displayLabel.text! += sender.currentTitle!
+                }
+                else if self.displayLabel.text!.characters.contains(".") {
+                    self.displayLabel.text! += sender.currentTitle!
+                }
+                else if sender.currentTitle! == "." {
+                    self.floatingPointButton.enabled = false
+                    self.displayLabel.text! += sender.currentTitle!
+                }
+                else if sender.currentTitle! == "0" {
+                    return
+                }
+                else {
+                    self.displayLabel.text!.removeAtIndex(self.displayLabel.text!.startIndex)
+                    self.displayLabel.text! += sender.currentTitle!
+                }
+            }
+            else {
+                if self.displayLabel.text!.characters.contains(".") {
+                    self.floatingPointButton.enabled = false
+                }
+                self.displayLabel.text! += sender.currentTitle!
+            }
         }
         else {
-            self.displayLabel.text = sender.currentTitle!
-            self.userIsInTheMiddleOfTypingNumber = true
+            if sender.currentTitle! == "." {
+                self.displayLabel.text = "0."
+                self.floatingPointButton.enabled = false
+            }
+            else {
+                self.displayLabel.text = sender.currentTitle!
+            }
+            self.isUserInTheMiddleOfTyping = true
         }
     }
     @IBAction func clearDisplayButtonPressed(sender: UIButton) {
-        self.DigitZeroButton.enabled = false
         self.floatingPointButton.enabled = true
         self.displayLabel.text = "0"
-        self.userIsInTheMiddleOfTypingNumber = false
+        self.isUserInTheMiddleOfTyping = false
     }
     
     @IBAction func floatingPointButtonPressed(sender: UIButton) {
-        self.DigitZeroButton.enabled = true
         if self.displayLabel.text!.characters.contains(".") { return }
         else {
             self.displayLabel.text!.append("." as Character)
             self.floatingPointButton.enabled = false
-            self.userIsInTheMiddleOfTypingNumber = true
+            self.isUserInTheMiddleOfTyping = true
         }
     }
     
     @IBAction func enterButtonPressed() {
-        self.DigitZeroButton.enabled = true
         self.floatingPointButton.enabled = true
-        self.userIsInTheMiddleOfTypingNumber = false
+        self.isUserInTheMiddleOfTyping = false
         self.operandStack.append(self.displayValue)
         
         print("self.operandStack: \(operandStack)")
@@ -82,7 +105,7 @@ class ViewController: UIViewController {
     @IBAction func calculateButtonPressed(sender: UIButton) {
         let calculationSymbol = sender.currentTitle
         
-        if self.userIsInTheMiddleOfTypingNumber { self.enterButtonPressed() }
+        if self.isUserInTheMiddleOfTyping { self.enterButtonPressed() }
         
         switch calculationSymbol! {
             case "×": self.performMathCalculation({ (x: Double, y: Double) -> Double in return y * x })

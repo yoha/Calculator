@@ -289,7 +289,6 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="DigitZeroButton" destination="2Ar-VT-wQU" id="ZdD-1R-IG5"/>
                         <outlet property="displayLabel" destination="ntB-hh-2Hc" id="vpp-72-Bvv"/>
                         <outlet property="floatingPointButton" destination="Fsj-0r-jte" id="PyI-jO-gD3"/>
                     </connections>
