@@ -49,10 +49,6 @@ class ViewController: UIViewController {
                 else if self.displayLabel.text!.characters.contains(".") {
                     self.displayLabel.text! += sender.currentTitle!
                 }
-                else if sender.currentTitle! == "." {
-                    self.floatingPointButton.enabled = false
-                    self.displayLabel.text! += sender.currentTitle!
-                }
                 else if sender.currentTitle! == "0" {
                     return
                 }
@@ -69,13 +65,7 @@ class ViewController: UIViewController {
             }
         }
         else {
-            if sender.currentTitle! == "." {
-                self.displayLabel.text = "0."
-                self.floatingPointButton.enabled = false
-            }
-            else {
-                self.displayLabel.text = sender.currentTitle!
-            }
+            self.displayLabel.text = sender.currentTitle!
             self.isUserInTheMiddleOfTyping = true
         }
     }
