@@ -28,7 +28,7 @@ class ViewController: UIViewController {
             return NSNumberFormatter().numberFromString(self.displayLabel.text!)!.doubleValue
         }
         set {
-            self.displayLabel.text = "\(newValue)"
+            self.displayLabel.text = String(format: "%.3f", newValue)
             self.isUserInTheMiddleOfTyping = false
         }
     }
@@ -36,6 +36,7 @@ class ViewController: UIViewController {
     // MARK: - IBOutlet Properties
     
     @IBOutlet weak var displayLabel: UILabel!
+    @IBOutlet weak var historyDisplayLabel: UILabel!
     @IBOutlet weak var floatingPointButton: UIButton!
     
     // MARK: - IBAction Properties

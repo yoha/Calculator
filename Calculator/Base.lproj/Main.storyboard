@@ -352,6 +352,7 @@
                     <connections>
                         <outlet property="displayLabel" destination="ntB-hh-2Hc" id="vpp-72-Bvv"/>
                         <outlet property="floatingPointButton" destination="Fsj-0r-jte" id="PyI-jO-gD3"/>
+                        <outlet property="historyDisplayLabel" destination="tO8-7t-Mye" id="VgR-sm-a7H"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
