@@ -6,7 +6,7 @@
 //  Copyright © 2015 Yohannes Wijaya. All rights reserved.
 //
 //
-// todo: tweak the significant digit treshold.
+// todo: tweak the significant digit treshold including inversion
 
 import UIKit
 
@@ -138,6 +138,14 @@ class ViewController: UIViewController {
             default: break
         }
     }
+    
+    @IBAction func invertDigitButton(sender: UIButton) {
+        var numberFromString = NSNumberFormatter().numberFromString(self.displayLabel.text!)!.doubleValue
+        if numberFromString > 0 { numberFromString -= (numberFromString * 2) }
+        else if numberFromString < 0 { numberFromString += (-numberFromString * 2) }
+        self.displayLabel.text = "\(numberFromString)"
+    }
+    
     
     // MARK: - Custom Methods
     

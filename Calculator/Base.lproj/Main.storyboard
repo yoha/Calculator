@@ -235,6 +235,10 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uxd-ku-iOs">
                                 <rect key="frame" x="470" y="104" width="102" height="91"/>
                                 <animations/>
+                                <state key="normal" title="±"/>
+                                <connections>
+                                    <action selector="invertDigitButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="gDp-Dp-3mB"/>
+                                </connections>
                             </button>
                         </subviews>
                         <animations/>
