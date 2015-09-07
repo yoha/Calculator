@@ -5,6 +5,8 @@
 //  Created by Yohannes Wijaya on 8/29/15.
 //  Copyright © 2015 Yohannes Wijaya. All rights reserved.
 //
+//
+// tweak the significant digit logic.
 
 import UIKit
 
@@ -25,10 +27,15 @@ class ViewController: UIViewController {
     
     var displayValue: Double {
         get {
-            return NSNumberFormatter().numberFromString(self.displayLabel.text!)!.doubleValue
+            let numberFormatter = NSNumberFormatter()
+            numberFormatter.usesSignificantDigits = true
+            numberFormatter.maximumFractionDigits = 2
+            numberFormatter.maximumSignificantDigits = 3
+            let formattedNumber = numberFormatter.numberFromString(self.displayLabel.text!)!.doubleValue
+            return formattedNumber - floor(formattedNumber) < 0.01 ? formattedNumber : NSNumberFormatter().numberFromString(self.displayLabel.text!)!.doubleValue
         }
         set {
-            self.displayLabel.text = String(format: "%.3f", newValue)
+            self.displayLabel.text = newValue - floor(newValue) < 0.01 ? "\(newValue)" : String(format: "%.3f", newValue)
             self.isUserInTheMiddleOfTyping = false
         }
     }
@@ -94,6 +101,7 @@ class ViewController: UIViewController {
     @IBAction func clearDisplayButton(sender: UIButton) {
         self.floatingPointButton.enabled = true
         self.displayLabel.text = "0"
+        self.historyDisplayLabel.text = ""
         self.isUserInTheMiddleOfTyping = false
     }
     
@@ -101,16 +109,17 @@ class ViewController: UIViewController {
         self.floatingPointButton.enabled = true
         self.isUserInTheMiddleOfTyping = false
         self.operandStack.append(self.displayValue)
-        
+        self.historyDisplayLabel.text! += "\(self.displayValue) "
         print("self.operandStack: \(operandStack)")
     }
     
     @IBAction func performMathOperationButton(sender: UIButton) {
-        let calculationSymbol = sender.currentTitle
+        let calculationSymbol = sender.currentTitle!
+        self.historyDisplayLabel.text! +=  "\(calculationSymbol) "
         
         if self.isUserInTheMiddleOfTyping { self.enterButton() }
         
-        switch calculationSymbol! {
+        switch calculationSymbol {
             case "×": self.performMathCalculation({ (x: Double, y: Double) -> Double in return y * x })
             case "÷": self.performMathCalculation({ (x, y) in y / x }) // inference & implicit return
             case "+": self.performMathCalculation({ $1 + $0 }) // shorthand argument names
