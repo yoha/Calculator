@@ -168,6 +168,10 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NSq-u6-JVr">
                                 <rect key="frame" x="470" y="302" width="102" height="92"/>
                                 <animations/>
+                                <state key="normal" title="π"/>
+                                <connections>
+                                    <action selector="appendPieValue:" destination="BYZ-38-t0r" eventType="touchUpInside" id="sS4-cp-Rhu"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wf8-Ce-kjT">
                                 <rect key="frame" x="470" y="402" width="102" height="91"/>
@@ -197,16 +201,25 @@
                                 <rect key="frame" x="28" y="104" width="102" height="91"/>
                                 <animations/>
                                 <state key="normal" title="sin"/>
+                                <connections>
+                                    <action selector="performMathOperationButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="pz6-ZO-Tci"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RWe-am-Big">
                                 <rect key="frame" x="138" y="104" width="103" height="91"/>
                                 <animations/>
                                 <state key="normal" title="cos"/>
+                                <connections>
+                                    <action selector="performMathOperationButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="eAj-C3-mMi"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VEi-pv-Vvm">
                                 <rect key="frame" x="249" y="104" width="102" height="91"/>
                                 <animations/>
                                 <state key="normal" title="tan"/>
+                                <connections>
+                                    <action selector="performMathOperationButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ZJS-Vd-vsu"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LA9-Ew-onP">
                                 <rect key="frame" x="359" y="104" width="103" height="91"/>
@@ -343,7 +356,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="93" y="309"/>
+            <point key="canvasLocation" x="45" y="321"/>
         </scene>
     </scenes>
 </document>

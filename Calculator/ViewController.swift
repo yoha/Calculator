@@ -69,11 +69,6 @@ class ViewController: UIViewController {
             self.isUserInTheMiddleOfTyping = true
         }
     }
-    @IBAction func clearDisplayButton(sender: UIButton) {
-        self.floatingPointButton.enabled = true
-        self.displayLabel.text = "0"
-        self.isUserInTheMiddleOfTyping = false
-    }
     
     @IBAction func appendFloatingPointButton(sender: UIButton) {
         if self.displayLabel.text!.characters.contains(".") { return }
@@ -82,6 +77,23 @@ class ViewController: UIViewController {
             self.floatingPointButton.enabled = false
             self.isUserInTheMiddleOfTyping = true
         }
+    }
+    
+    @IBAction func appendPieValue(sender: UIButton) {
+        if self.operandStack.count == 0 {
+            self.operandStack.append(self.displayValue)
+            if self.operandStack.first == 0.0 {
+                self.operandStack.removeAtIndex(self.operandStack.count - 1)
+            }
+        }
+        self.displayValue = M_PI
+        self.enterButton()
+    }
+    
+    @IBAction func clearDisplayButton(sender: UIButton) {
+        self.floatingPointButton.enabled = true
+        self.displayLabel.text = "0"
+        self.isUserInTheMiddleOfTyping = false
     }
     
     @IBAction func enterButton() {
@@ -102,7 +114,12 @@ class ViewController: UIViewController {
             case "÷": self.performMathCalculation({ (x, y) in y / x }) // inference & implicit return
             case "+": self.performMathCalculation({ $1 + $0 }) // shorthand argument names
             case "−": self.performMathCalculation(){ $1 - $0 } // trailing closure for unary paramenter
+
             case "√": self.performMathCalculation { sqrt($0) } // () is unneeded for unary param
+            
+            case "sin": self.performMathCalculation({ (x: Double) -> Double in return sin(x) })
+            case "cos": self.performMathCalculation({ x in cos(x) })
+            case "tan": self.performMathCalculation({ tan($0) })
             default: break
         }
     }
