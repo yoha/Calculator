@@ -21,7 +21,7 @@
                                 <rect key="frame" x="20" y="28" width="560" height="39"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="32"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tO8-7t-Mye">
@@ -31,7 +31,7 @@
                                     <constraint firstAttribute="height" constant="21" id="sH5-Qw-uvm"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oVU-Wx-TAt">
@@ -167,21 +167,25 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yW6-3c-zqM">
                                 <rect key="frame" x="470" y="203" width="102" height="91"/>
                                 <animations/>
+                                <state key="normal" title="π"/>
+                                <connections>
+                                    <action selector="appendPieValue:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6Oc-2r-kut"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NSq-u6-JVr">
                                 <rect key="frame" x="470" y="302" width="102" height="92"/>
                                 <animations/>
-                                <state key="normal" title="π"/>
+                                <state key="normal" title="√"/>
                                 <connections>
-                                    <action selector="appendPieValue:" destination="BYZ-38-t0r" eventType="touchUpInside" id="sS4-cp-Rhu"/>
+                                    <action selector="performMathOperationButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="T93-Hh-DjH"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wf8-Ce-kjT">
                                 <rect key="frame" x="470" y="402" width="102" height="91"/>
                                 <animations/>
-                                <state key="normal" title="√"/>
+                                <state key="normal" title="delete"/>
                                 <connections>
-                                    <action selector="performMathOperationButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="4dg-z8-rFM"/>
+                                    <action selector="deleteButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="XJX-UP-s9i"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F5X-dT-1vu">

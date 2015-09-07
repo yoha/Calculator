@@ -6,7 +6,7 @@
 //  Copyright © 2015 Yohannes Wijaya. All rights reserved.
 //
 //
-// tweak the significant digit logic.
+// todo: tweak the significant digit treshold.
 
 import UIKit
 
@@ -27,15 +27,12 @@ class ViewController: UIViewController {
     
     var displayValue: Double {
         get {
-            let numberFormatter = NSNumberFormatter()
-            numberFormatter.usesSignificantDigits = true
-            numberFormatter.maximumFractionDigits = 2
-            numberFormatter.maximumSignificantDigits = 3
-            let formattedNumber = numberFormatter.numberFromString(self.displayLabel.text!)!.doubleValue
-            return formattedNumber - floor(formattedNumber) < 0.01 ? formattedNumber : NSNumberFormatter().numberFromString(self.displayLabel.text!)!.doubleValue
+            return NSNumberFormatter().numberFromString(self.displayLabel.text!)!.doubleValue
         }
         set {
-            self.displayLabel.text = newValue - floor(newValue) < 0.01 ? "\(newValue)" : String(format: "%.3f", newValue)
+//            print("newValue: \(newValue)")
+//            print("floorValue: \(floor(newValue))")
+            self.displayLabel.text = newValue - floor(newValue) < 0.01 ? "\(Int(newValue))" : String(format: "%.3f", newValue)
             self.isUserInTheMiddleOfTyping = false
         }
     }
@@ -103,6 +100,14 @@ class ViewController: UIViewController {
         self.displayLabel.text = "0"
         self.historyDisplayLabel.text = ""
         self.isUserInTheMiddleOfTyping = false
+    }
+    
+    @IBAction func deleteButton(sender: UIButton) {
+        guard self.displayLabel.text!.characters.count > 1 else {
+            self.displayLabel.text = "0"
+            return
+        }
+        self.displayLabel.text = String(dropLast(self.displayLabel.text!.characters))
     }
     
     @IBAction func enterButton() {
