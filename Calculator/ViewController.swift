@@ -10,8 +10,6 @@
 /*
 todo: 
 1. tweak the significant digit treshold including inversion
-4. add light gray as background color to digit buttons to differentiate them from others.
-5. add light green as background color to enter button.
 
 bug: after entering a number, pressing floating point will append instead of overwrite
 */
@@ -22,6 +20,8 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.floatingPointButton.enabled = false
         
         self.tapGestureToShowAllClearTipOnce = UITapGestureRecognizer(target: self, action: "alertAboutAllClearFunctionOnce:")
         self.clearButton.addGestureRecognizer(tapGestureToShowAllClearTipOnce)
@@ -90,16 +90,13 @@ class ViewController: UIViewController {
         else {
             self.displayLabel.text = sender.currentTitle!
             self.isUserInTheMiddleOfTyping = true
+            self.floatingPointButton.enabled = true
         }
     }
     
     @IBAction func appendFloatingPointButton(sender: UIButton) {
-        if self.displayLabel.text!.characters.contains(".") { return }
-        else {
-            self.displayLabel.text!.append("." as Character)
-            self.floatingPointButton.enabled = false
-            self.isUserInTheMiddleOfTyping = true
-        }
+        self.displayLabel.text!.append("." as Character)
+        self.floatingPointButton.enabled = false
     }
     
     @IBAction func appendPieValue(sender: UIButton) {
@@ -126,8 +123,8 @@ class ViewController: UIViewController {
     }
     
     @IBAction func enterButton() {
-        self.floatingPointButton.enabled = true
         self.isUserInTheMiddleOfTyping = false
+        self.floatingPointButton.enabled = false
         self.operandStack.append(self.displayValue)
         self.historyDisplayLabel.text! += "\(self.displayValue) "
         print("self.operandStack: \(self.operandStack)")
@@ -173,7 +170,7 @@ class ViewController: UIViewController {
     }
     
     func clearDisplay() {
-        self.floatingPointButton.enabled = true
+        self.floatingPointButton.enabled = false
         self.displayLabel.text = "0"
         self.historyDisplayLabel.text = ""
         self.isUserInTheMiddleOfTyping = false
