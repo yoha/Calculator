@@ -6,8 +6,16 @@
 //  Copyright © 2015 Yohannes Wijaya. All rights reserved.
 //
 //
-// todo: tweak the significant digit treshold including inversion
-// bug: after entering a number, pressing floating point will append instead of overwrite
+
+/*
+todo: 
+1. tweak the significant digit treshold including inversion
+3. add gesture recognizer to C button to alert user they can long press to clear all memories.
+4. add light gray as background color to digit buttons to differentiate them from others.
+5. add light green as background color to enter button.
+
+bug: after entering a number, pressing floating point will append instead of overwrite
+*/
 
 import UIKit
 
@@ -175,6 +183,7 @@ class ViewController: UIViewController {
     func performMathCalculation(operation: (x: Double, y: Double) -> Double) {
         guard self.operandStack.count >= 2 else { return }
         self.displayValue = operation(x: self.operandStack.removeLast(), y: self.operandStack.removeLast())
+        self.historyDisplayLabel.text! += " = "
         self.enterButton()
     }
 
