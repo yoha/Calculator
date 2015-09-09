@@ -7,6 +7,7 @@
 //
 //
 // todo: tweak the significant digit treshold including inversion
+// bug: after entering a number, pressing floating point will append instead of overwrite
 
 import UIKit
 
@@ -14,6 +15,10 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: "emptyOperandStack:")
+        longPressGesture.minimumPressDuration = 1.0
+        self.clearButton.addGestureRecognizer(longPressGesture)
     }
     
     // MARK: - Stored Properties
@@ -42,6 +47,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var displayLabel: UILabel!
     @IBOutlet weak var historyDisplayLabel: UILabel!
     @IBOutlet weak var floatingPointButton: UIButton!
+    @IBOutlet weak var clearButton: UIButton!
     
     // MARK: - IBAction Properties
     
@@ -96,10 +102,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func clearDisplayButton(sender: UIButton) {
-        self.floatingPointButton.enabled = true
-        self.displayLabel.text = "0"
-        self.historyDisplayLabel.text = ""
-        self.isUserInTheMiddleOfTyping = false
+        self.clearDisplay()
     }
     
     @IBAction func deleteButton(sender: UIButton) {
@@ -115,7 +118,7 @@ class ViewController: UIViewController {
         self.isUserInTheMiddleOfTyping = false
         self.operandStack.append(self.displayValue)
         self.historyDisplayLabel.text! += "\(self.displayValue) "
-        print("self.operandStack: \(operandStack)")
+        print("self.operandStack: \(self.operandStack)")
     }
     
     @IBAction func performMathOperationButton(sender: UIButton) {
@@ -148,6 +151,26 @@ class ViewController: UIViewController {
     
     
     // MARK: - Custom Methods
+    
+    func clearDisplay() {
+        self.floatingPointButton.enabled = true
+        self.displayLabel.text = "0"
+        self.historyDisplayLabel.text = ""
+        self.isUserInTheMiddleOfTyping = false
+    }
+    
+    func emptyOperandStack(gestureRecognizer: UIGestureRecognizer) {
+        if gestureRecognizer.state == UIGestureRecognizerState.Began {
+            let alertController = UIAlertController(title: "Erase All Memories?", message: nil, preferredStyle: UIAlertControllerStyle.Alert)
+            alertController.addAction(UIAlertAction(title: "Erase", style: UIAlertActionStyle.Default, handler: { (alertAction) -> Void in
+                self.operandStack = []
+                self.clearDisplay()
+                print("self.operandStack: \(self.operandStack)")
+            }))
+            alertController.addAction(UIAlertAction(title: "Don't erase", style: .Cancel, handler: nil))
+            self.presentViewController(alertController, animated: true, completion: nil)
+        }
+    }
     
     func performMathCalculation(operation: (x: Double, y: Double) -> Double) {
         guard self.operandStack.count >= 2 else { return }
