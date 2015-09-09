@@ -10,7 +10,6 @@
 /*
 todo: 
 1. tweak the significant digit treshold including inversion
-3. add gesture recognizer to C button to alert user they can long press to clear all memories.
 4. add light gray as background color to digit buttons to differentiate them from others.
 5. add light green as background color to enter button.
 
@@ -24,14 +23,19 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let longPressGesture = UILongPressGestureRecognizer(target: self, action: "emptyOperandStack:")
-        longPressGesture.minimumPressDuration = 1.0
-        self.clearButton.addGestureRecognizer(longPressGesture)
+        self.tapGestureToShowAllClearTipOnce = UITapGestureRecognizer(target: self, action: "alertAboutAllClearFunctionOnce:")
+        self.clearButton.addGestureRecognizer(tapGestureToShowAllClearTipOnce)
+        
+        self.longPressGestureToEmptyOperandStack = UILongPressGestureRecognizer(target: self, action: "emptyOperandStack:")
+        self.longPressGestureToEmptyOperandStack.minimumPressDuration = 1.0
+        self.clearButton.addGestureRecognizer(longPressGestureToEmptyOperandStack)
     }
     
     // MARK: - Stored Properties
     
     var isUserInTheMiddleOfTyping = false
+    var tapGestureToShowAllClearTipOnce: UIGestureRecognizer!
+    var longPressGestureToEmptyOperandStack: UILongPressGestureRecognizer!
     
     // var operandStack: [Double] = []
     var operandStack = Array<Double>()
@@ -131,7 +135,7 @@ class ViewController: UIViewController {
     
     @IBAction func performMathOperationButton(sender: UIButton) {
         let calculationSymbol = sender.currentTitle!
-        self.historyDisplayLabel.text! +=  "\(calculationSymbol) "
+        self.historyDisplayLabel.text! +=  "\(calculationSymbol)"
         
         if self.isUserInTheMiddleOfTyping { self.enterButton() }
         
@@ -159,6 +163,14 @@ class ViewController: UIViewController {
     
     
     // MARK: - Custom Methods
+    
+    func alertAboutAllClearFunctionOnce(gestureRecognizer: UIGestureRecognizer) {
+            let alertController = UIAlertController(title: "Tip: ", message: "If you tap & hold C, you can erase all memories.", preferredStyle: UIAlertControllerStyle.Alert)
+            alertController.addAction(UIAlertAction(title: "I got it", style: UIAlertActionStyle.Default, handler: nil))
+            self.presentViewController(alertController, animated: true, completion: { () -> Void in
+                self.clearButton.removeGestureRecognizer(self.tapGestureToShowAllClearTipOnce)
+            })
+    }
     
     func clearDisplay() {
         self.floatingPointButton.enabled = true
