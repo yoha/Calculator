@@ -11,7 +11,6 @@
 todo: 
 1. tweak the significant digit treshold including inversion
 
-bug: after entering a number, pressing floating point will append instead of overwrite
 */
 
 import UIKit
@@ -64,34 +63,27 @@ class ViewController: UIViewController {
     // MARK: - IBAction Properties
     
     @IBAction func appendDigitButton(sender: UIButton) {
-        if isUserInTheMiddleOfTyping {
-            if self.displayLabel.text!.characters.first == "0" {
-                if sender.currentTitle == "0" && self.displayLabel.text!.characters.contains(".") {
-                    self.displayLabel.text! += sender.currentTitle!
-                }
-                else if self.displayLabel.text!.characters.contains(".") {
-                    self.displayLabel.text! += sender.currentTitle!
-                }
-                else if sender.currentTitle! == "0" {
-                    return
-                }
-                else {
-                    self.displayLabel.text!.removeAtIndex(self.displayLabel.text!.startIndex)
-                    self.displayLabel.text! += sender.currentTitle!
-                }
-            }
-            else {
-                if self.displayLabel.text!.characters.contains(".") {
-                    self.floatingPointButton.enabled = false
-                }
-                self.displayLabel.text! += sender.currentTitle!
-            }
-        }
-        else {
+        
+        guard isUserInTheMiddleOfTyping else {
             self.displayLabel.text = sender.currentTitle!
             self.isUserInTheMiddleOfTyping = true
             self.floatingPointButton.enabled = true
+            return
         }
+        
+        guard self.displayLabel.text!.characters.first == "0" else {
+            if self.displayLabel.text!.characters.contains(".") {
+                self.floatingPointButton.enabled = false
+            }
+            self.displayLabel.text! += sender.currentTitle!
+            return
+        }
+        
+        guard sender.currentTitle == "0" && self.displayLabel.text!.characters.contains(".") || self.displayLabel.text!.characters.contains(".") else {
+            return
+        }
+        
+        self.displayLabel.text! += sender.currentTitle!
     }
     
     @IBAction func appendFloatingPointButton(sender: UIButton) {
