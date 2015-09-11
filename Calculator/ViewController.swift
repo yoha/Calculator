@@ -46,14 +46,16 @@ class ViewController: UIViewController {
     
     // MARK: - Computed Properties
     
-    var displayValue: Double {
+    var displayValue: Double? {
         get {
-            return NSNumberFormatter().numberFromString(self.displayLabel.text!)!.doubleValue
+            return NSNumberFormatter().numberFromString(self.displayLabel.text!)!.doubleValue ?? nil
         }
         set {
-//            print("newValue: \(newValue)")
-//            print("floorValue: \(floor(newValue))")
-            self.displayLabel.text = self.customNumberFormatter.stringFromNumber(NSNumber(double: newValue))
+            guard newValue != nil else {
+                self.displayLabel.text = "0"
+                return
+            }
+            self.displayLabel.text = self.customNumberFormatter.stringFromNumber(NSNumber(double: newValue!))
             self.isUserInTheMiddleOfTyping = false
         }
     }
@@ -98,7 +100,7 @@ class ViewController: UIViewController {
     
     @IBAction func appendPieValue(sender: UIButton) {
         if self.operandStack.count == 0 {
-            self.operandStack.append(self.displayValue)
+            self.operandStack.append(self.displayValue!)
             if self.operandStack.first == 0.0 {
                 self.operandStack.removeAtIndex(self.operandStack.count - 1)
             }
@@ -113,7 +115,7 @@ class ViewController: UIViewController {
     
     @IBAction func deleteButton(sender: UIButton) {
         guard self.displayLabel.text!.characters.count > 1 else {
-            self.displayLabel.text = "0"
+            self.displayValue = nil
             return
         }
         self.displayLabel.text = String(self.displayLabel.text!.characters.dropLast())
@@ -122,8 +124,8 @@ class ViewController: UIViewController {
     @IBAction func enterButton() {
         self.isUserInTheMiddleOfTyping = false
         self.floatingPointButton.enabled = false
-        self.operandStack.append(self.displayValue)
-        self.historyDisplayLabel.text! += self.customNumberFormatter.stringFromNumber(NSNumber(double: self.displayValue))! + " "
+        self.operandStack.append(self.displayValue!)
+        self.historyDisplayLabel.text! += self.customNumberFormatter.stringFromNumber(NSNumber(double: self.displayValue!))! + " "
         print("self.operandStack: \(self.operandStack)")
     }
     
@@ -168,7 +170,7 @@ class ViewController: UIViewController {
     
     func clearDisplay() {
         self.floatingPointButton.enabled = false
-        self.displayLabel.text = "0"
+        self.displayValue = nil
         self.historyDisplayLabel.text = ""
         self.isUserInTheMiddleOfTyping = false
     }
