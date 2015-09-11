@@ -8,8 +8,7 @@
 //
 
 /*
-todo: 
-1. tweak the significant digit treshold including inversion
+todo:
 
 */
 
@@ -28,6 +27,10 @@ class ViewController: UIViewController {
         self.longPressGestureToEmptyOperandStack = UILongPressGestureRecognizer(target: self, action: "emptyOperandStack:")
         self.longPressGestureToEmptyOperandStack.minimumPressDuration = 1.0
         self.clearButton.addGestureRecognizer(longPressGestureToEmptyOperandStack)
+        
+        self.customNumberFormatter = NSNumberFormatter()
+        self.customNumberFormatter.minimumFractionDigits = 0
+        self.customNumberFormatter.maximumFractionDigits = 10
     }
     
     // MARK: - Stored Properties
@@ -35,6 +38,8 @@ class ViewController: UIViewController {
     var isUserInTheMiddleOfTyping = false
     var tapGestureToShowAllClearTipOnce: UIGestureRecognizer!
     var longPressGestureToEmptyOperandStack: UILongPressGestureRecognizer!
+    
+    var customNumberFormatter: NSNumberFormatter!
     
     // var operandStack: [Double] = []
     var operandStack = Array<Double>()
@@ -48,7 +53,7 @@ class ViewController: UIViewController {
         set {
 //            print("newValue: \(newValue)")
 //            print("floorValue: \(floor(newValue))")
-            self.displayLabel.text = newValue - floor(newValue) < 0.01 ? "\(Int(newValue))" : String(format: "%.3f", newValue)
+            self.displayLabel.text = self.customNumberFormatter.stringFromNumber(NSNumber(double: newValue))
             self.isUserInTheMiddleOfTyping = false
         }
     }
@@ -111,20 +116,20 @@ class ViewController: UIViewController {
             self.displayLabel.text = "0"
             return
         }
-        self.displayLabel.text = String(dropLast(self.displayLabel.text!.characters))
+        self.displayLabel.text = String(self.displayLabel.text!.characters.dropLast())
     }
     
     @IBAction func enterButton() {
         self.isUserInTheMiddleOfTyping = false
         self.floatingPointButton.enabled = false
         self.operandStack.append(self.displayValue)
-        self.historyDisplayLabel.text! += "\(self.displayValue) "
+        self.historyDisplayLabel.text! += self.customNumberFormatter.stringFromNumber(NSNumber(double: self.displayValue))! + " "
         print("self.operandStack: \(self.operandStack)")
     }
     
     @IBAction func performMathOperationButton(sender: UIButton) {
         let calculationSymbol = sender.currentTitle!
-        self.historyDisplayLabel.text! +=  "\(calculationSymbol)"
+        self.historyDisplayLabel.text! +=  "\(calculationSymbol) "
         
         if self.isUserInTheMiddleOfTyping { self.enterButton() }
         
@@ -147,7 +152,7 @@ class ViewController: UIViewController {
         var numberFromString = NSNumberFormatter().numberFromString(self.displayLabel.text!)!.doubleValue
         if numberFromString > 0 { numberFromString -= (numberFromString * 2) }
         else if numberFromString < 0 { numberFromString += (-numberFromString * 2) }
-        self.displayLabel.text = "\(numberFromString)"
+        self.displayLabel.text = self.customNumberFormatter.stringFromNumber(NSNumber(double: numberFromString))
     }
     
     
