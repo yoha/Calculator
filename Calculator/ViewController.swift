@@ -163,7 +163,7 @@ class ViewController: UIViewController {
     func alertAboutAllClearFunctionOnce(gestureRecognizer: UIGestureRecognizer) {
             let alertController = UIAlertController(title: "Tip: ", message: "If you tap & hold C, you can erase all memories.", preferredStyle: UIAlertControllerStyle.Alert)
             alertController.addAction(UIAlertAction(title: "I got it", style: UIAlertActionStyle.Default, handler: nil))
-            self.presentViewController(alertController, animated: true, completion: { () -> Void in
+            self.presentViewController(alertController, animated: true, completion: { [unowned self] () -> Void in
                 self.clearButton.removeGestureRecognizer(self.tapGestureToShowAllClearTipOnce)
             })
     }
@@ -178,7 +178,7 @@ class ViewController: UIViewController {
     func emptyOperandStack(gestureRecognizer: UIGestureRecognizer) {
         if gestureRecognizer.state == UIGestureRecognizerState.Began {
             let alertController = UIAlertController(title: "Erase All Memories?", message: nil, preferredStyle: UIAlertControllerStyle.Alert)
-            alertController.addAction(UIAlertAction(title: "Erase", style: UIAlertActionStyle.Default, handler: { (alertAction) -> Void in
+            alertController.addAction(UIAlertAction(title: "Erase", style: UIAlertActionStyle.Default, handler: { [unowned self] (alertAction) -> Void in
                 self.operandStack = []
                 self.clearDisplay()
                 print("self.operandStack: \(self.operandStack)")
