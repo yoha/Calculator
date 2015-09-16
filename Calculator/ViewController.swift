@@ -9,7 +9,6 @@
 
 /*
 todo: 
-fix: press 022 -> 2 instead of 22
 
 */
 
@@ -87,12 +86,9 @@ class ViewController: UIViewController {
         }
         
         guard sender.currentTitle == "0" && self.displayLabel.text!.characters.contains(".") || self.displayLabel.text!.characters.contains(".") else {
-            self.isUserInTheMiddleOfTyping = false
-            print(self.displayLabel.text!)
-            // fix here
+            self.displayLabel.text = sender.currentTitle
             return
         }
-        
         self.displayLabel.text! += sender.currentTitle!
     }
     
