@@ -8,7 +8,8 @@
 //
 
 /*
-todo:
+todo: 
+fix: press 022 -> 2 instead of 22
 
 */
 
@@ -24,9 +25,9 @@ class ViewController: UIViewController {
         self.tapGestureToShowAllClearTipOnce = UITapGestureRecognizer(target: self, action: "alertAboutAllClearFunctionOnce:")
         self.clearButton.addGestureRecognizer(tapGestureToShowAllClearTipOnce)
         
-        self.longPressGestureToEmptyOperandStack = UILongPressGestureRecognizer(target: self, action: "emptyOperandStack:")
-        self.longPressGestureToEmptyOperandStack.minimumPressDuration = 1.0
-        self.clearButton.addGestureRecognizer(longPressGestureToEmptyOperandStack)
+        self.longPressGestureToEmptyOperandOrOperatorStack = UILongPressGestureRecognizer(target: self, action: "emptyOperandOrOperatorStack:")
+        self.longPressGestureToEmptyOperandOrOperatorStack.minimumPressDuration = 1.0
+        self.clearButton.addGestureRecognizer(longPressGestureToEmptyOperandOrOperatorStack)
         
         self.customNumberFormatter = NSNumberFormatter()
         self.customNumberFormatter.minimumFractionDigits = 0
@@ -36,13 +37,12 @@ class ViewController: UIViewController {
     // MARK: - Stored Properties
     
     var isUserInTheMiddleOfTyping = false
-    var tapGestureToShowAllClearTipOnce: UIGestureRecognizer!
-    var longPressGestureToEmptyOperandStack: UILongPressGestureRecognizer!
+    var tapGestureToShowAllClearTipOnce: UITapGestureRecognizer!
+    var longPressGestureToEmptyOperandOrOperatorStack: UILongPressGestureRecognizer!
     
     var customNumberFormatter: NSNumberFormatter!
     
-    // var operandStack: [Double] = []
-    var operandStack = Array<Double>()
+    var calculatorModel = CalculatorModel()
     
     // MARK: - Computed Properties
     
@@ -70,7 +70,7 @@ class ViewController: UIViewController {
     // MARK: - IBAction Properties
     
     @IBAction func appendDigitButton(sender: UIButton) {
-        
+        print(self.isUserInTheMiddleOfTyping)
         guard isUserInTheMiddleOfTyping else {
             self.displayLabel.text = sender.currentTitle!
             self.isUserInTheMiddleOfTyping = true
@@ -87,6 +87,9 @@ class ViewController: UIViewController {
         }
         
         guard sender.currentTitle == "0" && self.displayLabel.text!.characters.contains(".") || self.displayLabel.text!.characters.contains(".") else {
+            self.isUserInTheMiddleOfTyping = false
+            print(self.displayLabel.text!)
+            // fix here
             return
         }
         
@@ -97,17 +100,18 @@ class ViewController: UIViewController {
         self.displayLabel.text!.append("." as Character)
         self.floatingPointButton.enabled = false
     }
-    
-    @IBAction func appendPieValue(sender: UIButton) {
-        if self.operandStack.count == 0 {
-            self.operandStack.append(self.displayValue!)
-            if self.operandStack.first == 0.0 {
-                self.operandStack.removeAtIndex(self.operandStack.count - 1)
-            }
-        }
-        self.displayValue = M_PI
-        self.enterButton()
-    }
+
+// move this dude to the model!
+//    @IBAction func appendPieValue(sender: UIButton) {
+//        if self.operandStack.count == 0 {
+//            self.operandStack.append(self.displayValue!)
+//            if self.operandStack.first == 0.0 {
+//                self.operandStack.removeAtIndex(self.operandStack.count - 1)
+//            }
+//        }
+//        self.displayValue = M_PI
+//        self.enterButton()
+//    }
     
     @IBAction func clearDisplayButton(sender: UIButton) {
         self.clearDisplay()
@@ -116,6 +120,7 @@ class ViewController: UIViewController {
     @IBAction func deleteButton(sender: UIButton) {
         guard self.displayLabel.text!.characters.count > 1 else {
             self.displayValue = nil
+            self.isUserInTheMiddleOfTyping = false
             return
         }
         self.displayLabel.text = String(self.displayLabel.text!.characters.dropLast())
@@ -124,29 +129,21 @@ class ViewController: UIViewController {
     @IBAction func enterButton() {
         self.isUserInTheMiddleOfTyping = false
         self.floatingPointButton.enabled = false
-        self.operandStack.append(self.displayValue!)
+        
+        if let calculatedResult = self.calculatorModel.pushOperand(self.displayValue!) {
+            self.displayValue = calculatedResult
+        }
+        
         self.historyDisplayLabel.text! += self.customNumberFormatter.stringFromNumber(NSNumber(double: self.displayValue!))! + " "
-        print("self.operandStack: \(self.operandStack)")
     }
     
     @IBAction func performMathOperationButton(sender: UIButton) {
-        let calculationSymbol = sender.currentTitle!
-        self.historyDisplayLabel.text! +=  "\(calculationSymbol) "
-        
         if self.isUserInTheMiddleOfTyping { self.enterButton() }
-        
-        switch calculationSymbol {
-            case "×": self.performMathCalculation({ (x: Double, y: Double) -> Double in return y * x })
-            case "÷": self.performMathCalculation({ (x, y) in y / x }) // inference & implicit return
-            case "+": self.performMathCalculation({ $1 + $0 }) // shorthand argument names
-            case "−": self.performMathCalculation(){ $1 - $0 } // trailing closure for unary paramenter
-
-            case "√": self.performMathCalculation { sqrt($0) } // () is unneeded for unary param
-            
-            case "sin": self.performMathCalculation({ (x: Double) -> Double in return sin(x) })
-            case "cos": self.performMathCalculation({ x in cos(x) })
-            case "tan": self.performMathCalculation({ tan($0) })
-            default: break
+        if let mathOperatorSymbol = sender.currentTitle {
+            self.historyDisplayLabel.text! +=  "\(mathOperatorSymbol) "
+            if let calculatedResult = self.calculatorModel.pushMathOperator(mathOperatorSymbol) {
+                self.displayValue = calculatedResult
+            }
         }
     }
     
@@ -161,7 +158,7 @@ class ViewController: UIViewController {
     // MARK: - Custom Methods
     
     func alertAboutAllClearFunctionOnce(gestureRecognizer: UIGestureRecognizer) {
-            let alertController = UIAlertController(title: "Tip: ", message: "If you tap & hold C, you can erase all memories.", preferredStyle: UIAlertControllerStyle.Alert)
+            let alertController = UIAlertController(title: "Tip: ", message: "If you tap & hold C, you can erase all memories instead.", preferredStyle: UIAlertControllerStyle.Alert)
             alertController.addAction(UIAlertAction(title: "I got it", style: UIAlertActionStyle.Default, handler: nil))
             self.presentViewController(alertController, animated: true, completion: { [unowned self] () -> Void in
                 self.clearButton.removeGestureRecognizer(self.tapGestureToShowAllClearTipOnce)
@@ -174,32 +171,16 @@ class ViewController: UIViewController {
         self.historyDisplayLabel.text = ""
         self.isUserInTheMiddleOfTyping = false
     }
-    
-    func emptyOperandStack(gestureRecognizer: UIGestureRecognizer) {
+
+    func emptyOperandOrOperatorStack(gestureRecognizer: UIGestureRecognizer) {
         if gestureRecognizer.state == UIGestureRecognizerState.Began {
             let alertController = UIAlertController(title: "Erase All Memories?", message: nil, preferredStyle: UIAlertControllerStyle.Alert)
             alertController.addAction(UIAlertAction(title: "Erase", style: UIAlertActionStyle.Default, handler: { [unowned self] (alertAction) -> Void in
-                self.operandStack = []
+                self.calculatorModel.emptyoperandOrOperatorStack()
                 self.clearDisplay()
-                print("self.operandStack: \(self.operandStack)")
             }))
             alertController.addAction(UIAlertAction(title: "Don't erase", style: .Cancel, handler: nil))
             self.presentViewController(alertController, animated: true, completion: nil)
         }
     }
-    
-    func performMathCalculation(operation: (x: Double, y: Double) -> Double) {
-        guard self.operandStack.count >= 2 else { return }
-        self.displayValue = operation(x: self.operandStack.removeLast(), y: self.operandStack.removeLast())
-        self.historyDisplayLabel.text! += " = "
-        self.enterButton()
-    }
-
-    @nonobjc // obj-c doesn't allow method overloading & this class inherits from UIViewController, which is an obj-c file despite writing it in swift.
-    func performMathCalculation(operation: Double -> Double) {
-        guard self.operandStack.count >= 1 else { return }
-        self.displayValue = operation(self.operandStack.removeLast())
-        self.enterButton()
-    }
 }
-

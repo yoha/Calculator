@@ -34,11 +34,10 @@ class CalculatorModel {
         func mathOperation(op: Op) {
             self.availableMathOperators[op.description] = op
         }
-        mathOperation(Op.BinaryOperation("×", { (x: Double, y: Double) -> Double in return y + x }))
-        mathOperation(Op.BinaryOperation("×", { (x: Double, y: Double) -> Double in return y + x }))
-        mathOperation(Op.BinaryOperation("÷", { (x, y) -> Double in y - x}))
-        mathOperation(Op.BinaryOperation("+") { $1 / $0 })
-        mathOperation(Op.BinaryOperation("−", * ))
+        mathOperation(Op.BinaryOperation("+", { (x: Double, y: Double) -> Double in return y + x }))
+        mathOperation(Op.BinaryOperation("−", { (x, y) -> Double in y - x}))
+        mathOperation(Op.BinaryOperation("÷") { $1 / $0 })
+        mathOperation(Op.BinaryOperation("×", * ))
         mathOperation(Op.UnaryOperation("√", sqrt))
     }
 
@@ -75,6 +74,11 @@ class CalculatorModel {
     }
     
     // MARK: - Public Methods
+    
+    func emptyoperandOrOperatorStack() {
+        self.operandOrOperatorStack = []
+        print(self.operandOrOperatorStack)
+    }
     
     func performCalculation() -> Double? {
         let (computedResult, leftoverOpsInStack) = self.evaluateOpsRecursively(self.operandOrOperatorStack)
