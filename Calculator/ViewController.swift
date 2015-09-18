@@ -21,7 +21,7 @@ class ViewController: UIViewController {
         
         self.floatingPointButton.enabled = false
         
-        self.tapGestureToShowAllClearTipOnce = UITapGestureRecognizer(target: self, action: "alertAboutAllClearFunctionOnce:")
+        self.tapGestureToShowAllClearTipOnce = UITapGestureRecognizer(target: self, action: "alertAboutAllClearFunctionOnce")
         self.clearButton.addGestureRecognizer(tapGestureToShowAllClearTipOnce)
         
         self.longPressGestureToEmptyOperandOrOperatorStack = UILongPressGestureRecognizer(target: self, action: "emptyOperandOrOperatorStack:")
@@ -69,7 +69,6 @@ class ViewController: UIViewController {
     // MARK: - IBAction Properties
     
     @IBAction func appendDigitButton(sender: UIButton) {
-        print(self.isUserInTheMiddleOfTyping)
         guard isUserInTheMiddleOfTyping else {
             self.displayLabel.text = sender.currentTitle!
             self.isUserInTheMiddleOfTyping = true
@@ -153,12 +152,12 @@ class ViewController: UIViewController {
     
     // MARK: - Custom Methods
     
-    func alertAboutAllClearFunctionOnce(gestureRecognizer: UIGestureRecognizer) {
-            let alertController = UIAlertController(title: "Tip: ", message: "If you tap & hold C, you can erase all memories instead.", preferredStyle: UIAlertControllerStyle.Alert)
-            alertController.addAction(UIAlertAction(title: "I got it", style: UIAlertActionStyle.Default, handler: nil))
-            self.presentViewController(alertController, animated: true, completion: { [unowned self] () -> Void in
-                self.clearButton.removeGestureRecognizer(self.tapGestureToShowAllClearTipOnce)
-            })
+    func alertAboutAllClearFunctionOnce() {
+        let alertController = UIAlertController(title: "Tip: ", message: "If you tap & hold C, you can erase all memories instead.", preferredStyle: UIAlertControllerStyle.Alert)
+        alertController.addAction(UIAlertAction(title: "I got it", style: UIAlertActionStyle.Default, handler: nil))
+        self.presentViewController(alertController, animated: true, completion: { [unowned self] () -> Void in
+            self.clearButton.removeGestureRecognizer(self.tapGestureToShowAllClearTipOnce)
+        })
     }
     
     func clearDisplay() {
@@ -168,8 +167,8 @@ class ViewController: UIViewController {
         self.isUserInTheMiddleOfTyping = false
     }
 
-    func emptyOperandOrOperatorStack(gestureRecognizer: UIGestureRecognizer) {
-        if gestureRecognizer.state == UIGestureRecognizerState.Began {
+    func emptyOperandOrOperatorStack(longPressGestureRecognizer: UIGestureRecognizer) {
+        if longPressGestureRecognizer.state == UIGestureRecognizerState.Began {
             let alertController = UIAlertController(title: "Erase All Memories?", message: nil, preferredStyle: UIAlertControllerStyle.Alert)
             alertController.addAction(UIAlertAction(title: "Erase", style: UIAlertActionStyle.Default, handler: { [unowned self] (alertAction) -> Void in
                 self.calculatorModel.emptyoperandOrOperatorStack()
