@@ -29,8 +29,7 @@ class ViewController: UIViewController {
         self.clearButton.addGestureRecognizer(longPressGestureToEmptyOperandOrOperatorStack)
         
         self.customNumberFormatter = NSNumberFormatter()
-        self.customNumberFormatter.minimumFractionDigits = 0
-        self.customNumberFormatter.maximumFractionDigits = 10
+        self.customNumberFormatter.maximumSignificantDigits = 4
     }
     
     // MARK: - Stored Properties
