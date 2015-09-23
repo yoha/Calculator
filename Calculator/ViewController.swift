@@ -143,10 +143,8 @@ class ViewController: UIViewController {
     }
     
     @IBAction func invertDigitButton(sender: UIButton) {
-        var numberFromString = NSNumberFormatter().numberFromString(self.displayLabel.text!)!.doubleValue
-        if numberFromString > 0 { numberFromString -= (numberFromString * 2) }
-        else if numberFromString < 0 { numberFromString += (-numberFromString * 2) }
-        self.displayLabel.text = self.customNumberFormatter.stringFromNumber(NSNumber(double: numberFromString))
+        guard self.displayValue != 0 else { return }
+        self.displayValue! -= self.displayValue! * 2
     }
     
     
