@@ -39,6 +39,9 @@ class CalculatorModel {
         mathOperation(Op.BinaryOperation("÷") { $1 / $0 })
         mathOperation(Op.BinaryOperation("×", * ))
         mathOperation(Op.UnaryOperation("√", sqrt))
+        mathOperation(Op.UnaryOperation("sin", sin))
+        mathOperation(Op.UnaryOperation("cos", cos))
+        mathOperation(Op.UnaryOperation("tan", tan))
     }
 
     // MARK: - Private Stored Properties

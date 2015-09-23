@@ -8,7 +8,7 @@
 //
 
 /*
-todo: 
+todo: add pie operation
 
 */
 
@@ -42,6 +42,8 @@ class ViewController: UIViewController {
     
     var calculatorModel = CalculatorModel()
     
+    var calculationHistory = [String]()
+    
     // MARK: - Computed Properties
     
     var displayValue: Double? {
@@ -54,6 +56,7 @@ class ViewController: UIViewController {
                 return
             }
             self.displayLabel.text = self.customNumberFormatter.stringFromNumber(NSNumber(double: newValue!))
+            self.calculationHistory.append(self.displayLabel.text!)
             self.isUserInTheMiddleOfTyping = false
         }
     }
@@ -127,17 +130,15 @@ class ViewController: UIViewController {
         if let calculatedResult = self.calculatorModel.pushOperand(self.displayValue!) {
             self.displayValue = calculatedResult
         }
-        
-        self.historyDisplayLabel.text! += self.customNumberFormatter.stringFromNumber(NSNumber(double: self.displayValue!))! + " "
     }
     
     @IBAction func performMathOperationButton(sender: UIButton) {
         if self.isUserInTheMiddleOfTyping { self.enterButton() }
         if let mathOperatorSymbol = sender.currentTitle {
-            self.historyDisplayLabel.text! +=  "\(mathOperatorSymbol) "
             if let calculatedResult = self.calculatorModel.pushMathOperator(mathOperatorSymbol) {
                 self.displayValue = calculatedResult
             }
+            self.showPastCalculations(sender)
         }
     }
     
@@ -147,7 +148,7 @@ class ViewController: UIViewController {
     }
     
     
-    // MARK: - Custom Methods
+    // MARK: - Local Methods
     
     func alertAboutAllClearFunctionOnce() {
         let alertController = UIAlertController(title: "Tip: ", message: "If you tap & hold C, you can erase all memories instead.", preferredStyle: UIAlertControllerStyle.Alert)
@@ -173,6 +174,21 @@ class ViewController: UIViewController {
             }))
             alertController.addAction(UIAlertAction(title: "Don't erase", style: .Cancel, handler: nil))
             self.presentViewController(alertController, animated: true, completion: nil)
+        }
+    }
+    
+    func showPastCalculations(mathOperatorButton: UIButton) {
+        guard self.calculationHistory.count > 0 else { return }
+        let index = self.calculationHistory.count
+        
+        switch mathOperatorButton.currentTitle! {
+            case "+", "−", "×", "÷":
+                guard index >= 3 else { break }
+                self.historyDisplayLabel.text! += self.calculationHistory[index - 3] + mathOperatorButton.currentTitle! + self.calculationHistory[index - 2] + "=" + "\(self.customNumberFormatter.stringFromNumber(self.displayValue!)!), "
+            case "sin", "cos", "tan", "√":
+                guard index >= 2 else { break }
+                self.historyDisplayLabel.text! += mathOperatorButton.currentTitle! + self.calculationHistory[index - 2] + "=" + "\(self.customNumberFormatter.stringFromNumber(self.displayValue!)!), "
+            default: break
         }
     }
 }
