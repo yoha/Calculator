@@ -171,6 +171,7 @@ class ViewController: UIViewController {
             alertController.addAction(UIAlertAction(title: "Erase", style: UIAlertActionStyle.Default, handler: { [unowned self] (alertAction) -> Void in
                 self.calculatorModel.emptyoperandOrOperatorStack()
                 self.clearDisplay()
+                self.calculationHistory = []
             }))
             alertController.addAction(UIAlertAction(title: "Don't erase", style: .Cancel, handler: nil))
             self.presentViewController(alertController, animated: true, completion: nil)
