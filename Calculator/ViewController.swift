@@ -161,8 +161,12 @@ class ViewController: UIViewController {
     func clearDisplay() {
         self.floatingPointButton.enabled = false
         self.displayValue = nil
-        self.historyDisplayLabel.text = ""
         self.isUserInTheMiddleOfTyping = false
+    }
+    
+    func clearHistoryDisplay() {
+        self.historyDisplayLabel.text = ""
+        self.calculationHistory = []
     }
 
     func emptyOperandOrOperatorStack(longPressGestureRecognizer: UIGestureRecognizer) {
@@ -171,7 +175,7 @@ class ViewController: UIViewController {
             alertController.addAction(UIAlertAction(title: "Erase", style: UIAlertActionStyle.Default, handler: { [unowned self] (alertAction) -> Void in
                 self.calculatorModel.emptyoperandOrOperatorStack()
                 self.clearDisplay()
-                self.calculationHistory = []
+                self.clearHistoryDisplay()
             }))
             alertController.addAction(UIAlertAction(title: "Don't erase", style: .Cancel, handler: nil))
             self.presentViewController(alertController, animated: true, completion: nil)
