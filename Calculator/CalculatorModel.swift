@@ -34,13 +34,19 @@ class CalculatorModel {
         func mathOperation(op: Op) {
             self.availableMathOperators[op.description] = op
         }
-        mathOperation(Op.BinaryOperation("+", { (x: Double, y: Double) -> Double in return y + x }))
+        mathOperation(Op.BinaryOperation("+", { (x: Double, y: Double) -> Double in
+            return y + x
+        }))
         mathOperation(Op.BinaryOperation("−", { (x, y) -> Double in y - x}))
         mathOperation(Op.BinaryOperation("÷") { $1 / $0 })
         mathOperation(Op.BinaryOperation("×", * ))
-        mathOperation(Op.UnaryOperation("√", sqrt))
-        mathOperation(Op.UnaryOperation("sin", sin))
-        mathOperation(Op.UnaryOperation("cos", cos))
+        mathOperation(Op.UnaryOperation("√", { (z: Double) -> Double in
+            return sqrt(z)
+        }))
+        mathOperation(Op.UnaryOperation("sin", { (z) -> Double in
+            sin(z)
+        }))
+        mathOperation(Op.UnaryOperation("cos") { cos($0) })
         mathOperation(Op.UnaryOperation("tan", tan))
     }
 

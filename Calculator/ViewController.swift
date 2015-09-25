@@ -185,10 +185,10 @@ class ViewController: UIViewController {
         switch mathOperatorButton.currentTitle! {
             case "+", "−", "×", "÷":
                 guard index >= 3 else { break }
-                self.historyDisplayLabel.text! += self.calculationHistory[index - 3] + mathOperatorButton.currentTitle! + self.calculationHistory[index - 2] + "=" + "\(self.customNumberFormatter.stringFromNumber(self.displayValue!)!), "
+                self.historyDisplayLabel.text! += self.calculationHistory[index - 3] + mathOperatorButton.currentTitle! + self.calculationHistory[index - 2] + "=" + "\(self.displayValue!), "
             case "sin", "cos", "tan", "√":
                 guard index >= 2 else { break }
-                self.historyDisplayLabel.text! += mathOperatorButton.currentTitle! + self.calculationHistory[index - 2] + "=" + "\(self.customNumberFormatter.stringFromNumber(self.displayValue!)!), "
+                self.historyDisplayLabel.text! += mathOperatorButton.currentTitle! + self.calculationHistory[index - 2] + "=" + "\(self.displayValue!), "
             default: break
         }
     }
