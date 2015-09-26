@@ -98,17 +98,11 @@ class ViewController: UIViewController {
         self.floatingPointButton.enabled = false
     }
 
-// move this dude to the model!
-//    @IBAction func appendPieValue(sender: UIButton) {
-//        if self.operandStack.count == 0 {
-//            self.operandStack.append(self.displayValue!)
-//            if self.operandStack.first == 0.0 {
-//                self.operandStack.removeAtIndex(self.operandStack.count - 1)
-//            }
-//        }
-//        self.displayValue = M_PI
-//        self.enterButton()
-//    }
+    @IBAction func appendPieValue(sender: UIButton) {
+        guard self.isUserInTheMiddleOfTyping == false else { return }
+        self.isUserInTheMiddleOfTyping = true
+        self.displayLabel.text = self.customNumberFormatter.stringFromNumber(M_PI)
+    }
     
     @IBAction func clearDisplayButton(sender: UIButton) {
         self.clearDisplay()
