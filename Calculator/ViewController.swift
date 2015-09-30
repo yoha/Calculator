@@ -128,7 +128,7 @@ class ViewController: UIViewController {
     @IBAction func invertDigitButton(sender: UIButton) {
         self.squareRootButton.enabled = true
         guard self.displayValue != 0 else { return }
-        let convertedNumber = Double(NSNumberFormatter().numberFromString(self.displayLabel.text!)!)
+        let convertedNumber = Double(self.customNumberFormatter.numberFromString(self.displayLabel.text!)!)
         let calculationResult = convertedNumber - (convertedNumber * 2)
         self.displayLabel.text = self.customNumberFormatter.stringFromNumber(calculationResult)
     }
