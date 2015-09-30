@@ -169,7 +169,7 @@
                                 <animations/>
                                 <state key="normal" title="π"/>
                                 <connections>
-                                    <action selector="appendPieValue:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6Oc-2r-kut"/>
+                                    <action selector="appendPiValue:" destination="BYZ-38-t0r" eventType="touchUpInside" id="jnO-RM-1Hc"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NSq-u6-JVr">
@@ -365,6 +365,7 @@
                         <outlet property="displayLabel" destination="ntB-hh-2Hc" id="vpp-72-Bvv"/>
                         <outlet property="floatingPointButton" destination="Fsj-0r-jte" id="PyI-jO-gD3"/>
                         <outlet property="historyDisplayLabel" destination="tO8-7t-Mye" id="VgR-sm-a7H"/>
+                        <outlet property="squareRootButton" destination="NSq-u6-JVr" id="LUK-Lp-Ofh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

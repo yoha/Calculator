@@ -5,6 +5,7 @@
 //  Created by Yohannes Wijaya on 9/16/15.
 //  Copyright © 2015 Yohannes Wijaya. All rights reserved.
 //
+// bug found: tan 9, cos 8, then without enter button, tap square root -> crash. i think problem arises when the result to be square root is negative number
 
 import Foundation
 
@@ -67,6 +68,7 @@ class CalculatorModel {
                 case .UnaryOperation(_, let mathOperator):
                     let opToBeEvaluated = self.evaluateOpsRecursively(opsStack)
                     if let operandToBeEvaluated = opToBeEvaluated.evaluationResult {
+//                        print("value1: \(mathOperator(operandToBeEvaluated))")
                         return (mathOperator(operandToBeEvaluated), opToBeEvaluated.remainingOpsInStack)
                     }
                 case .BinaryOperation(_, let mathOperator):

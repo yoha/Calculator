@@ -7,11 +7,6 @@
 //
 //
 
-/*
-todo: add pie operation
-
-*/
-
 import UIKit
 
 class ViewController: UIViewController {
@@ -67,10 +62,13 @@ class ViewController: UIViewController {
     @IBOutlet weak var historyDisplayLabel: UILabel!
     @IBOutlet weak var floatingPointButton: UIButton!
     @IBOutlet weak var clearButton: UIButton!
+    @IBOutlet weak var squareRootButton: UIButton!
     
     // MARK: - IBAction Properties
     
     @IBAction func appendDigitButton(sender: UIButton) {
+        self.squareRootButton.enabled = true
+        
         guard isUserInTheMiddleOfTyping else {
             self.displayLabel.text = sender.currentTitle!
             self.isUserInTheMiddleOfTyping = true
@@ -98,7 +96,7 @@ class ViewController: UIViewController {
         self.floatingPointButton.enabled = false
     }
 
-    @IBAction func appendPieValue(sender: UIButton) {
+    @IBAction func appendPiValue(sender: UIButton) {
         guard self.isUserInTheMiddleOfTyping == false else { return }
         self.isUserInTheMiddleOfTyping = true
         self.displayLabel.text = self.customNumberFormatter.stringFromNumber(M_PI)
@@ -127,18 +125,35 @@ class ViewController: UIViewController {
     }
     
     @IBAction func performMathOperationButton(sender: UIButton) {
-        if self.isUserInTheMiddleOfTyping { self.enterButton() }
+        self.squareRootButton.enabled = true
         if let mathOperatorSymbol = sender.currentTitle {
-            if let calculatedResult = self.calculatorModel.pushMathOperator(mathOperatorSymbol) {
-                self.displayValue = calculatedResult
+            if mathOperatorSymbol == "√" {
+                guard Double(self.customNumberFormatter.numberFromString(self.displayLabel.text!)!) > 0 else {
+                    self.squareRootButton.enabled = false
+                    return
+                }
+                self.enterButton()
+                if let calculatedResult = self.calculatorModel.pushMathOperator(mathOperatorSymbol) {
+                    self.displayValue = calculatedResult
+                }
+                self.showPastCalculations(sender)
             }
-            self.showPastCalculations(sender)
+            else {
+                if self.isUserInTheMiddleOfTyping { self.enterButton() }
+                if let calculatedResult = self.calculatorModel.pushMathOperator(mathOperatorSymbol) {
+                    self.displayValue = calculatedResult
+                }
+                self.showPastCalculations(sender)
+            }
         }
     }
     
     @IBAction func invertDigitButton(sender: UIButton) {
+        self.squareRootButton.enabled = true
         guard self.displayValue != 0 else { return }
-        self.displayValue! -= self.displayValue! * 2
+        let convertedNumber = Double(self.customNumberFormatter.numberFromString(self.displayLabel.text!)!)
+        let calculationResult = convertedNumber - (convertedNumber * 2)
+        self.displayLabel.text = self.customNumberFormatter.stringFromNumber(calculationResult)
     }
     
     
