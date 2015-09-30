@@ -24,7 +24,7 @@ class ViewController: UIViewController {
         self.clearButton.addGestureRecognizer(longPressGestureToEmptyOperandOrOperatorStack)
         
         self.customNumberFormatter = NSNumberFormatter()
-        self.customNumberFormatter.maximumSignificantDigits = 4
+        self.customNumberFormatter.maximumSignificantDigits = 10
     }
     
     // MARK: - Stored Properties
@@ -125,6 +125,14 @@ class ViewController: UIViewController {
         }
     }
     
+    @IBAction func invertDigitButton(sender: UIButton) {
+        self.squareRootButton.enabled = true
+        guard self.displayValue != 0 else { return }
+        let convertedNumber = Double(NSNumberFormatter().numberFromString(self.displayLabel.text!)!)
+        let calculationResult = convertedNumber - (convertedNumber * 2)
+        self.displayLabel.text = self.customNumberFormatter.stringFromNumber(calculationResult)
+    }
+
     @IBAction func performMathOperationButton(sender: UIButton) {
         self.squareRootButton.enabled = true
         if let mathOperatorSymbol = sender.currentTitle {
@@ -148,15 +156,6 @@ class ViewController: UIViewController {
             }
         }
     }
-    
-    @IBAction func invertDigitButton(sender: UIButton) {
-        self.squareRootButton.enabled = true
-        guard self.displayValue != 0 else { return }
-        let convertedNumber = Double(self.customNumberFormatter.numberFromString(self.displayLabel.text!)!)
-        let calculationResult = convertedNumber - (convertedNumber * 2)
-        self.displayLabel.text = self.customNumberFormatter.stringFromNumber(calculationResult)
-    }
-    
     
     // MARK: - Local Methods
     
