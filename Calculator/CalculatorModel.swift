@@ -5,7 +5,6 @@
 //  Created by Yohannes Wijaya on 9/16/15.
 //  Copyright © 2015 Yohannes Wijaya. All rights reserved.
 //
-// bug found: tan 9, cos 8, then without enter button, tap square root -> crash. i think problem arises when the result to be square root is negative number
 
 import Foundation
 
