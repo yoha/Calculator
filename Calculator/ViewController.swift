@@ -128,9 +128,13 @@ class ViewController: UIViewController {
     @IBAction func invertDigitButton(sender: UIButton) {
         self.squareRootButton.enabled = true
         guard self.displayValue != 0 else { return }
-        let convertedNumber = Double(self.customNumberFormatter.numberFromString(self.displayLabel.text!)!)
-        let calculationResult = convertedNumber - (convertedNumber * 2)
-        self.displayLabel.text = self.customNumberFormatter.stringFromNumber(calculationResult)
+        var convertedNumber = Double(self.customNumberFormatter.numberFromString(self.displayLabel.text!)!)
+        /*** option 1: ***/
+        convertedNumber = convertedNumber.isSignMinus ? Double.abs(convertedNumber) : convertedNumber - (convertedNumber * 2)
+        self.displayLabel.text = self.customNumberFormatter.stringFromNumber(convertedNumber)
+        /*** option 2: ***/
+//        let calculationResult = convertedNumber - (convertedNumber * 2)
+//        self.displayLabel.text = self.customNumberFormatter.stringFromNumber(calculationResult)
     }
 
     @IBAction func performMathOperationButton(sender: UIButton) {
