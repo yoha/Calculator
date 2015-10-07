@@ -12,8 +12,6 @@ import UIKit
 class ViewController: UIViewController {
     
     override func viewDidLoad() {
-        super.viewDidLoad()
-        
         self.floatingPointButton.enabled = false
         
         self.tapGestureToShowAllClearTipOnce = UITapGestureRecognizer(target: self, action: "alertAboutAllClearFunctionOnce")
@@ -25,6 +23,8 @@ class ViewController: UIViewController {
         
         self.customNumberFormatter = NSNumberFormatter()
         self.customNumberFormatter.maximumSignificantDigits = 10
+        
+        super.viewDidLoad()
     }
     
     // MARK: - Stored Properties
