@@ -55,6 +55,38 @@ class CalculatorModel {
     private var operandOrOperatorStack = [Op]()
     private var availableMathOperators = [String: Op]()
     
+    // MARK: - Computed Properties
+    
+    /*** a Property List to be passed to NSUserDefaults if needed ***/
+    typealias PropertyList = AnyObject
+    var program: PropertyList {
+        get {
+            /*** option 1 ***/
+            return self.operandOrOperatorStack.map({ $0.description })
+            /*** option 2 ***/
+            /***
+            let returnedOpsDescription: [String]
+            for eachOp in self.operandOrOperatorStack {
+                returnedOpsDescription.append(eachOp.description)
+            }
+            return returnedOpsDescription
+            ***/
+        }
+        set {
+            guard let validArrayOfOpsDescription = newValue as? [String] else { return }
+            var newOperandOrOperatorStack = Array<Op>()
+            for eachOpDescription in validArrayOfOpsDescription {
+                if let op = self.availableMathOperators[eachOpDescription] {
+                    newOperandOrOperatorStack.append(op)
+                }
+                else if let operand = NSNumberFormatter().numberFromString(eachOpDescription)?.doubleValue {
+                    newOperandOrOperatorStack.append(.Operand(operand))
+                }
+            }
+            self.operandOrOperatorStack = newOperandOrOperatorStack
+        }
+    }
+    
     // MARK: - Private Methods
     
     private func evaluateOpsRecursively(var opsStack: [Op]) -> (evaluationResult: Double?, remainingOpsInStack: [Op]) {
